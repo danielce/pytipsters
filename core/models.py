@@ -26,7 +26,7 @@ class Team(models.Model):
     name = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     shortname = models.CharField(max_length=3)
-    emblem = models.UrlField()
+    emblem = models.URLField()
 
     def __str__(self) -> str:
         return f'({self.shortname}) {self.name}'
@@ -34,8 +34,14 @@ class Team(models.Model):
 
 class Match(OddBaseModel):
     date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    home_team = models.ForeignKey(Team)
-    away_team = models.ForeignKey(Team)
+    home_team = models.ForeignKey(
+        Team, null=True, on_delete=models.SET_NULL,
+        related_name="match_home_team"
+    )
+    away_team = models.ForeignKey(
+        Team, null=True, on_delete=models.SET_NULL,
+        related_name="match_away_team"
+    )
 
     def __str__(self) -> str:
         home = self.home_team.shortname
@@ -56,12 +62,14 @@ class Match(OddBaseModel):
 
 
 class MatchTip(OddBaseModel):
-    match = models.ForeignKey(Match)
-    user = models.ForeignKey(User)
+    match = models.ForeignKey(
+        Match, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL)
 
     def exact_score(self) -> bool:
-        if self.home_goals == match.home_goals and
-        self.away_goals == match.away_goals:
+        if ((self.home_goals == match.home_goals) and
+        (self.away_goals == match.away_goals)):
             return True
 
         return False

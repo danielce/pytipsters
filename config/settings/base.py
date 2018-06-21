@@ -66,7 +66,9 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'rest_framework',
+    'core',
 ]
 LOCAL_APPS = [
     'pytipsters.users.apps.UsersAppConfig',
