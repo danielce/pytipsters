@@ -256,3 +256,6 @@ INSTALLED_APPS += ['compressor']
 STATICFILES_FINDERS += ['compressor.finders.CompressorFinder']
 # Your stuff...
 # ------------------------------------------------------------------------------
+EXACT_SCORE_REWARD = 3
+WINNER_REWARD = 1
+LOSE_REWARD = 0
