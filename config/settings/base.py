@@ -3,6 +3,7 @@ Base settings to build other settings files upon.
 """
 
 import environ
+from datetime import timedelta
 
 ROOT_DIR = environ.Path(__file__) - 3  # (pytipsters/config/settings/base.py - 3 = pytipsters/)
 APPS_DIR = ROOT_DIR.path('pytipsters')
@@ -261,3 +262,10 @@ STATICFILES_FINDERS += ['compressor.finders.CompressorFinder']
 EXACT_SCORE_REWARD = 3
 WINNER_REWARD = 1
 LOSE_REWARD = 0
+
+# Rest Framework
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': timedelta(hours=1),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+}

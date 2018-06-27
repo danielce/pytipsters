@@ -1,3 +1,7 @@
+from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_jwt.views import verify_jwt_token
+
 from django.conf import settings
 from django.urls import include, path
 from django.conf.urls.static import static
@@ -5,10 +9,17 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
+<<<<<<< HEAD
 from core.views import MatchListView
+=======
+>>>>>>> f51fa4270e0085fa0fe11b2d5b99d1396c0dbbe2
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # JTW Token Authentication
+    path("auth-jwt/obtain/", obtain_jwt_token, name="obtain_jwt_token"),
+    path("auth-jwt/refresh/", refresh_jwt_token, name="refresh_jwt_token"),
+    path("auth-jwt/verify/", verify_jwt_token, name="verify_jwt_token"),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
