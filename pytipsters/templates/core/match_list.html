@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="col-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">date</th>
+                <th scope="col">names</th>
+                <th scope="col">score</th>
+                <th scope="col">Bet</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% comment %}
+            {% for fixture in fixtures %}
+                <tr tr class="bg-info">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{fixture.date}}</td>
+                    <td>{{fixture.home_team }}  {{fixture.away_team }}</td>
+                    <td>{{fixture.home_goals }}  {{fixture.away_goals }}</td>
+                    <td><button class="btn btn-primary">Bet</button></td>
+                </tr>
+            {% endfor %}
+            {% endcomment %}
+        </tbody>
+    </table>
+    
+    <form method="post">
+        {{ matchtips.management_form }}
+        {% for form in matchtips %}
+            <p>{{form.instance}}</p>
+            {{ form }}<br>
+        {% endfor %}
+    </form>
+  </div>
+    }
+{% endblock %}
