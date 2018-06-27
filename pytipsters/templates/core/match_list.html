@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
   <div class="col-12">
@@ -31,9 +32,19 @@
         {{ matchtips.management_form }}
         {% for form in matchtips %}
             <p>{{form.instance}}</p>
-            {{ form }}<br>
+            <div class="form-row">
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+              {% for field in form.visible_fields %}
+                <div class="col-md-1 mb-1">
+                  <input type="text" class="form-control" id="{{field.name}}" value="{{field.value}}" required>
+                </div>
+              {% endfor %}
+            </div>
+            <br>
         {% endfor %}
     </form>
   </div>
-    }
+    
 {% endblock %}

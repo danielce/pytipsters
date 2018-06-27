@@ -9,10 +9,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
-<<<<<<< HEAD
 from core.views import MatchListView
-=======
->>>>>>> f51fa4270e0085fa0fe11b2d5b99d1396c0dbbe2
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
