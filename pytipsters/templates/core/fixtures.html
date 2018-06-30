@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+  <div class="col-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans 'Date'%}</th>
+                <th scope="col">{% trans 'Fixture' %}</th>
+                <th scope="col">{% trans 'Score' %}e</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form method="post">
+                {{ tips.management_form }}
+                {% now Y as now %}
+                {% for form in tips %}{% csrf_token %}
+                  <tr class="{% if form.instance.fixture.date < now %}bg-warning{% else %}bg-info{% endif %}">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{form.instance.fixture.date}}</td>
+                    <td>{{form.instance.fixture.home_team.name }} - {{form.instance.fixture.away_team.name }}</td>
+                    <td>
+                        <div class="form-row">
+                          {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                          {% for field in form.visible_fields %}
+                              <input type="text" name="{{field.html_name}}" class="form-control col-md-1 mb-1" id="{{field.name}}" value="{{field.value}}" required>
+
+                          {% endfor %}
+                        </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+                 <tr>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td><button class="btn btn-primary" type="submit">{% trans 'Submit' %}</button></td>
+                 </tr>
+                
+            </form>
+        </tbody>
+    </table>
+    
+    
+  </div>
+    
+{% endblock %}

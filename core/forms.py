@@ -1,15 +1,15 @@
 from django import forms
 
-from .models import MatchTip, Match
+from .models import Tip
 
 
-class MatchTipForm(forms.ModelForm):
+class TipForm(forms.ModelForm):
     class Meta:
-        model = MatchTip
+        model = Tip
         fields = ['home_goals', 'away_goals']
 
 
-MatchTipFormSet = forms.modelformset_factory(
-    MatchTip,
+TipFormSet = forms.modelformset_factory(
+    Tip,
     fields=('home_goals', 'away_goals')
 )

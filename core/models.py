@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 User = get_user_model()
 
 
-class BetBaseModel(models.Model):
+class BaseEventModel(models.Model):
     home_goals = models.IntegerField(default=0)
     away_goals = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
@@ -34,7 +34,7 @@ class Team(models.Model):
         return self.name
 
 
-class MatchQuerySet(models.QuerySet):
+class FixtureQuerySet(models.QuerySet):
     # Available on both Manager and QuerySet.
     def active(self):
         now = timezone.now()
@@ -44,11 +44,11 @@ class MatchQuerySet(models.QuerySet):
         return self.filter(status=Match.PENDING)
 
 
-class Match(BetBaseModel):
+class Fixture(BaseEventModel):
     PENDING = 'p'
     SCHEDULED = 's'
     FINISHED = 'f'
-    MATCH_CHOICES = (
+    STATUS_CHOICES = (
         (PENDING, _('pending')),
         (SCHEDULED, _('scheduled')),
         (FINISHED, _('finished')),
@@ -56,7 +56,7 @@ class Match(BetBaseModel):
 
     date = models.DateTimeField(auto_now=False, auto_now_add=False)
     status = models.CharField(max_length=1,
-        choices=MATCH_CHOICES, default=SCHEDULED)
+        choices=STATUS_CHOICES, default=SCHEDULED)
     home_team = models.ForeignKey(
         Team, null=True, on_delete=models.SET_NULL,
         related_name="match_home_team"
@@ -66,7 +66,7 @@ class Match(BetBaseModel):
         related_name="match_away_team"
     )
 
-    objects = MatchQuerySet.as_manager()
+    objects = FixtureQuerySet.as_manager()
 
     def __str__(self) -> str:
         home = self.home_team.shortname if self.home_team else "-"
@@ -80,15 +80,15 @@ class Match(BetBaseModel):
         return '1' if self.home_goals > self.away_goals else '2'
 
 
-class MatchTip(BetBaseModel):
-    match = models.ForeignKey(
-        Match, null=True, on_delete=models.SET_NULL)
+class Tip(BaseEventModel):
+    fixture = models.ForeignKey(
+        Fixture, null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL)
 
     def exact_score(self) -> bool:
-        if ((self.home_goals == match.home_goals) and
-        (self.away_goals == match.away_goals)):
+        if ((self.home_goals == fixture.home_goals) and
+        (self.away_goals == fixture.away_goals)):
             return True
 
         return False

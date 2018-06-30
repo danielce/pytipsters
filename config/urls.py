@@ -9,7 +9,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
-from core.views import MatchListView
+from core.views import TipListView
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -30,7 +30,7 @@ urlpatterns = [
         include("pytipsters.users.urls", namespace="users"),
     ),
     path("accounts/", include("allauth.urls")),
-    path("fixtures/", MatchListView.as_view(), name="fixtures")
+    path("fixtures/", TipListView.as_view(), name="fixtures")
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
